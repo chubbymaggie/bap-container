@@ -1,0 +1,21 @@
+OASISFormat: 0.4
+Name:        bap-container
+Version:     0.1
+Synopsis:    BAP Container Format
+Authors:     Matthew Maurer
+License:     MIT
+Plugins:     META (0.4), DevFiles (0.4)
+
+Library "bap-container"
+  Path:            .
+  BuildTools:      ocamlbuild
+  Modules:         Container
+  BuildDepends:    elf, bap-types, bap-lifter
+
+#Executable "test-loader"
+#  Path:           .
+#  BuildTools:     ocamlbuild
+#  Install:        false
+#  MainIs:         test.ml
+#  BuildDepends:   bap-loader
+#  CompiledObject: native
