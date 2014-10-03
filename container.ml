@@ -9,24 +9,25 @@ end
 type sym_type = Unknown | Function
 type symbol = {symVal  : Bitvector.t;
                symType : sym_type}
-type section = {startAddr   : addr;
-                endAddr     : addr;
+type section = {start_addr  : addr;
+                end_addr    : addr;
                 data        : string;
                 permissions : perm list}
 module MemMap = struct 
   (* For now, we'll do this the slow way, assuming there are few sections *)
   type t = section list
+  let add_section m s = s :: m
   let rec get_bytes mm s e =
     if s > e then "" else
-    let sects = (List.filter (fun sect -> (sect.startAddr < s) && (sect.endAddr >= s)) mm)
+    let sects = (List.filter (fun sect -> (sect.start_addr < s) && (sect.end_addr >= s)) mm)
     in match sects with 
          | [] -> "" (* For now, return empty string for no bytes *)
          | [sect] ->
-           let e' = if B.compare sect.endAddr e < 0
-                       then sect.endAddr
+           let e' = if B.compare sect.end_addr e < 0
+                       then sect.end_addr
                        else e in
            let data = String.sub sect.data
-                                 (Z.to_int (B.to_zarith (B.minus s sect.startAddr)))
+                                 (Z.to_int (B.to_zarith (B.minus s sect.start_addr)))
                                  (Z.to_int (B.to_zarith (B.minus e' s))) in
            data ^ (get_bytes mm (B.incr e') e)
          | (_ :: _ :: _) -> failwith "Two sections define the same byte"

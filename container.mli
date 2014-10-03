@@ -5,8 +5,8 @@ type perm = R | W | X
 type sym_type = Unknown | Function
 type symbol = {symVal  : Bitvector.t;
                symType : sym_type}
-type section = {startAddr   : addr;
-                endAddr     : addr;
+type section = {start_addr   : addr;
+                end_addr     : addr;
                 data        : string;
                 permissions : perm list}
 type exec_container
