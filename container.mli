@@ -14,3 +14,6 @@ val get_bytes : exec_container -> addr -> addr -> string
 val get_sections : exec_container -> section list
 val get_func_symbols : exec_container -> addr list
 val get_disasm : exec_container -> addr -> asm * bil * addr
+val add_section : exec_container -> section -> exec_container
+val empty : exec_container
+val set_arch : exec_container -> string -> exec_container

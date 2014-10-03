@@ -49,4 +49,7 @@ let get_disasm ec addr =
    let (_, bil, ft, asm) = LocalArch.disasm LocalArch.init_state
      (get_byte ec)
      addr
-   in (asm, bil, ft) 
+   in (asm, bil, ft)
+let empty = {memory = []; symbols = []; arch = ""}
+let set_arch ec arch = {ec with arch = arch}
+let add_section ec sect = {ec with memory = MemMap.add_section ec.memory sect}
