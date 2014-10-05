@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 20913948244b914970b5b3e918a845cb)
+# DO NOT EDIT (digest: 18a0ba0405dec22d6642503068f8274d)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -16,6 +16,26 @@
 # Library bap-container
 "bap-container.cmxs": use_bap-container
 <*.ml{,i}>: pkg_bap-types
-<*.ml{,i}>: pkg_core_kernel
 <*.ml{,i}>: pkg_elf
+# Library leb128
+"leb128.cmxs": use_leb128
+# Executable test_leb128
+<test_leb128.{native,byte}>: pkg_bin_prot.syntax
+<test_leb128.{native,byte}>: pkg_camlp4
+<test_leb128.{native,byte}>: pkg_comparelib.syntax
+<test_leb128.{native,byte}>: pkg_core_kernel
+<test_leb128.{native,byte}>: pkg_herelib
+<test_leb128.{native,byte}>: pkg_herelib.syntax
+<test_leb128.{native,byte}>: pkg_ocplib-endian
+<test_leb128.{native,byte}>: pkg_sexplib.syntax
+<test_leb128.{native,byte}>: use_leb128
+<*.ml{,i}>: pkg_bin_prot.syntax
+<*.ml{,i}>: pkg_camlp4
+<*.ml{,i}>: pkg_comparelib.syntax
+<*.ml{,i}>: pkg_core_kernel
+<*.ml{,i}>: pkg_herelib
+<*.ml{,i}>: pkg_herelib.syntax
+<*.ml{,i}>: pkg_ocplib-endian
+<*.ml{,i}>: pkg_sexplib.syntax
+<*.ml{,i}>: use_leb128
 # OASIS_STOP

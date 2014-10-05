@@ -1,12 +1,24 @@
 # OASIS_START
-# DO NOT EDIT (digest: 7fd59817a633fe084accff18639cde0f)
+# DO NOT EDIT (digest: 1605268c76129d5c7c13d44c4db3afd0)
 version = "0.1"
 description = "BAP Container Format"
-requires = "core_kernel elf bap-types"
+requires =
+"core_kernel camlp4 sexplib.syntax bin_prot.syntax comparelib.syntax herelib herelib.syntax core_kernel elf bap-types"
 archive(byte) = "bap-container.cma"
 archive(byte, plugin) = "bap-container.cma"
 archive(native) = "bap-container.cmxa"
 archive(native, plugin) = "bap-container.cmxs"
 exists_if = "bap-container.cma"
+package "leb128" (
+ version = "0.1"
+ description = "BAP Container Format"
+ requires =
+ "core_kernel camlp4 sexplib.syntax bin_prot.syntax comparelib.syntax herelib herelib.syntax ocplib-endian"
+ archive(byte) = "leb128.cma"
+ archive(byte, plugin) = "leb128.cma"
+ archive(native) = "leb128.cmxa"
+ archive(native, plugin) = "leb128.cmxs"
+ exists_if = "leb128.cma"
+)
 # OASIS_STOP
 

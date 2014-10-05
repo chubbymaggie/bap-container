@@ -1,0 +1,4 @@
+PKG core
+PKG ocplib-endian
+B _build
+S .
