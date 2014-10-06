@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: 7fd59817a633fe084accff18639cde0f)
+version = "0.1"
+description = "BAP Container Format"
+requires = "core_kernel elf bap-types"
+archive(byte) = "bap-container.cma"
+archive(byte, plugin) = "bap-container.cma"
+archive(native) = "bap-container.cmxa"
+archive(native, plugin) = "bap-container.cmxs"
+exists_if = "bap-container.cma"
+# OASIS_STOP
+
