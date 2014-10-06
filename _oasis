@@ -9,8 +9,8 @@ Plugins:     META (0.4), DevFiles (0.4)
 Library "bap-container"
   Path:            .
   BuildTools:      ocamlbuild
-  Modules:         Container, Elf_container
-  BuildDepends:    elf, bap-types, bap-lifter
+  Modules:         Exec_container, Elf_container
+  BuildDepends:    core_kernel, elf, bap-types, bap-lifter
 
 #Executable "test-loader"
 #  Path:           .

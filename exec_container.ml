@@ -1,3 +1,5 @@
+open Core_kernel.Std
+
 module B = Bitvector
 type addr = Bitvector.t
 type asm = string option
@@ -19,7 +21,7 @@ module MemMap = struct
   let add_section m s = s :: m
   let rec get_bytes mm s e =
     if s > e then "" else
-    let sects = (List.filter (fun sect -> (sect.start_addr < s) && (sect.end_addr >= s)) mm)
+    let sects = (List.filter ~f:(fun sect -> (sect.start_addr < s) && (sect.end_addr >= s)) mm)
     in match sects with 
          | [] -> "" (* For now, return empty string for no bytes *)
          | [sect] ->
@@ -38,7 +40,7 @@ type exec_container = {memory : MemMap.t;
 let get_bytes ec s e = MemMap.get_bytes ec.memory s e
 let get_byte ec s = (get_bytes ec s s).[0]
 let get_sections ec = ec.memory
-let get_func_symbols ec = List.map (fun sym -> sym.symVal) (List.filter (fun sym -> sym.symType == Function) ec.symbols)
+let get_func_symbols ec = List.map ~f:(fun sym -> sym.symVal) (List.filter ~f:(fun sym -> sym.symType = Function) ec.symbols)
 let get_disasm ec addr =
   let module LocalArch = (val
     (match ec.arch with
