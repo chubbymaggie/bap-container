@@ -34,17 +34,18 @@ module MemMap = struct
 end
 type exec_container = {memory : MemMap.t;
                        symbols : symbol list;
-                       arch : string}
-
+                       arch : Arch.arch option}
+type t = exec_container
 module Reader = struct
 let get_bytes ec s e = MemMap.get_bytes ec.memory s e
 let get_byte ec s = (get_bytes ec s s).[0]
 let get_sections ec = ec.memory
 let get_func_symbols ec = List.map ~f:(fun sym -> sym.symVal) (List.filter ~f:(fun sym -> sym.symType = Function) ec.symbols)
+let get_arch ec = ec.arch
 end
 
 module Loader = struct
-let empty = {memory = []; symbols = []; arch = ""}
+let empty = {memory = []; symbols = []; arch = None}
 let set_arch ec arch = {ec with arch = arch}
 let add_section ec sect = {ec with memory = MemMap.add_section ec.memory sect}
 end
