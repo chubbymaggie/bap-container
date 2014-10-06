@@ -22,7 +22,7 @@ module MemMap = struct
     let sects = (List.filter ~f:(fun sect -> (sect.start_addr < s) && (sect.end_addr >= s)) mm)
     in match sects with 
          | [] -> "" (* For now, return empty string for no bytes *)
-         | [sect] ->
+         | (sect :: _) ->
            let e' = if B.compare sect.end_addr e < 0
                        then sect.end_addr
                        else e in
@@ -30,7 +30,6 @@ module MemMap = struct
                                  (Z.to_int (B.to_zarith (B.minus s sect.start_addr)))
                                  (Z.to_int (B.to_zarith (B.minus e' s))) in
            data ^ (get_bytes mm (B.incr e') e)
-         | (_ :: _ :: _) -> failwith "Two sections define the same byte"
 end
 type exec_container = {memory : MemMap.t;
                        symbols : symbol list;
