@@ -9,16 +9,18 @@ type section = {start_addr   : addr;
                 end_addr     : addr;
                 data        : string;
                 permissions : perm list}
-type exec_container
+type t
 
 module Reader : sig
-val get_bytes : exec_container -> addr -> addr -> string
-val get_sections : exec_container -> section list
-val get_func_symbols : exec_container -> addr list
+val get_bytes : t -> addr -> addr -> string
+val get_byte  : t -> addr -> char
+val get_sections : t -> section list
+val get_func_symbols : t -> addr list
+val get_arch : t -> Arch.arch option
 end
 
 module Loader : sig
-val add_section : exec_container -> section -> exec_container
-val empty : exec_container
-val set_arch : exec_container -> string -> exec_container
+val add_section : t -> section -> t
+val empty : t
+val set_arch : t -> Arch.arch option -> t
 end
