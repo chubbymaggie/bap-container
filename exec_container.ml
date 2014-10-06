@@ -37,6 +37,8 @@ end
 type exec_container = {memory : MemMap.t;
                        symbols : symbol list;
                        arch : string}
+
+module Reader = struct
 let get_bytes ec s e = MemMap.get_bytes ec.memory s e
 let get_byte ec s = (get_bytes ec s s).[0]
 let get_sections ec = ec.memory
@@ -52,6 +54,10 @@ let get_disasm ec addr =
      (get_byte ec)
      addr
    in (asm, bil, ft)
+end
+
+module Loader = struct
 let empty = {memory = []; symbols = []; arch = ""}
 let set_arch ec arch = {ec with arch = arch}
 let add_section ec sect = {ec with memory = MemMap.add_section ec.memory sect}
+end

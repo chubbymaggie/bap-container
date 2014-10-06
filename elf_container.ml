@@ -2,6 +2,8 @@ open Core_kernel.Std
 
 open Elf
 open Exec_container
+open Loader
+
 let lit64 = Bitvector.lit64
 
 let rec conv_flags = function
