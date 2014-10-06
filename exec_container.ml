@@ -2,8 +2,6 @@ open Core_kernel.Std
 
 module B = Bitvector
 type addr = Bitvector.t
-type asm = string option
-type bil = Bil.stmt list
 type perm = R | W | X
 module AddrHash = struct
 type 'a t = unit
@@ -43,17 +41,6 @@ let get_bytes ec s e = MemMap.get_bytes ec.memory s e
 let get_byte ec s = (get_bytes ec s s).[0]
 let get_sections ec = ec.memory
 let get_func_symbols ec = List.map ~f:(fun sym -> sym.symVal) (List.filter ~f:(fun sym -> sym.symType = Function) ec.symbols)
-let get_disasm ec addr =
-  let module LocalArch = (val
-    (match ec.arch with
-      | "arm" -> (module Arch_arm.ARM : Arch.ARCH)
-      | "x86" -> (module Arch_i386.X86_32 : Arch.ARCH)
-      | "x86_64" -> (module Arch_i386.X86_64 : Arch.ARCH)
-      | arch -> failwith ("Unsupported architecture: " ^ arch)) : Arch.ARCH) in
-   let (_, bil, ft, asm) = LocalArch.disasm LocalArch.init_state
-     (get_byte ec)
-     addr
-   in (asm, bil, ft)
 end
 
 module Loader = struct

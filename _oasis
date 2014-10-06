@@ -10,7 +10,7 @@ Library "bap-container"
   Path:            .
   BuildTools:      ocamlbuild
   Modules:         Exec_container, Elf_container
-  BuildDepends:    core_kernel, elf, bap-types, bap-lifter
+  BuildDepends:    core_kernel, elf, bap-types
 
 #Executable "test-loader"
 #  Path:           .
