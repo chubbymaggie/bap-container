@@ -12,7 +12,11 @@ BuildDepends: core_kernel,
               bin_prot.syntax,
               comparelib.syntax,
               herelib,
-              herelib.syntax
+              herelib.syntax,
+              variantslib.syntax,
+              fieldslib.syntax,
+              pa_ounit,
+              pa_ounit.syntax
 
 Library "bap-container"
   Path:            .
@@ -29,6 +33,14 @@ Library "leb128"
   CompiledObject: best
   BuildDepends: ocplib-endian
 
+Library dff
+  Path: .
+  FindlibParent: bap-container
+  FindlibName: dff
+  BuildDepends: bap-container.leb128, bap-types, pa_ounit, pa_ounit.syntax
+  Modules: Dff, Dwarf, Dwarf_input, Dwarf_data
+  XMETARequires: pa_ounit
+
 Executable "test_leb128"
   Path: .
   MainIs: test_leb128.ml
@@ -37,6 +49,18 @@ Executable "test_leb128"
   BuildDepends: bap-container.leb128
   CompiledObject: best
 
+Executable dff_test
+  Path: .
+  BuildDepends: bap-container.dff, pa_ounit, elf
+  MainIs: dff_test.ml
+  CompiledObject: best
+
+
 Test "leb128"
   Type: Custom (0.4)
   Command: $test_leb128
+
+Test dff_test
+  TestTools: dff_test
+  Command: $dff_test inline-test-runner dff -show-counts
+  Run: true

@@ -4,8 +4,8 @@ open Leb128
 
 let size = 10000
 
-let gen_int  = Quickcheck.uig
-let gen_uint = fun () -> Random.int (1 lsl 30 - 1)
+let gen_uint () = Random.int (1 lsl 30 - 1)
+let gen_int () = gen_uint () - gen_uint ()
 let gen_uint32 () = Random.int32 Int32.max_value
 let gen_int32 () = Int32.(gen_uint32 () - gen_uint32 ())
 let gen_uint64 () = Random.int64 Int64.max_value
@@ -66,7 +66,7 @@ let leb128_printer t =
 let read ~expect buffer t () =
   assert_equal
     ~printer:leb128_printer
-    (Leb128.read ~signed:t.signed  buffer ~pos:0)
+    (Leb128.read ~signed:t.signed  buffer ~pos_ref:(ref 0))
     (Ok (t.enc ~signed:t.signed expect))
 
 let write ~expect value t () =

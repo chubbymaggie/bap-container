@@ -94,22 +94,23 @@ let encode ~negative bits : t =
   fix ~negative (pack7 ~negative bits)
 
 
-let read_exn ?(signed=false) bits ~pos =
-  let s = Sequence.unfold ~init:(0,`Continue) ~f:(function
-      | _, `Stop -> None
-      | i, `Continue ->
-        let x = Bits.get_uint8 bits (pos+i) in
-        if x land (1 lsl 7) = 0 then Some (x,(i,`Stop))
-        else Some (x, (i+1,`Continue))) in
+let read_exn ?(signed=false) bits ~pos_ref =
+  let s = Sequence.unfold ~init:(`Continue) ~f:(function
+      | `Stop -> None
+      | `Continue ->
+        let x = Bits.get_uint8 bits !pos_ref  in
+        incr pos_ref;
+        if x land (1 lsl 7) = 0 then Some (x,`Stop)
+        else Some (x, `Continue)) in
   let data = Sequence.to_list_rev s in
   let negative = match data with
     | x::_ -> signed && x land (1 lsl 6) <> 0
     | [] -> false in
   {negative; data = List.rev data}
 
-let read ?signed bits ~pos =
+let read ?signed bits ~pos_ref =
   Or_error.try_with ~backtrace:true
-    (fun () -> read_exn ?signed bits ~pos)
+    (fun () -> read_exn ?signed bits ~pos_ref)
 
 let size t = max 1 @@ List.length t.data
 

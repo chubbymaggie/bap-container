@@ -14,7 +14,7 @@ type 'a decoder = t -> 'a Or_error.t
 (** [size leb] return size in bytes of the number stored in LEB128
     encoding.  *)
 val size: t -> int
-val read: ?signed:bool -> string -> pos:int -> t Or_error.t
+val read: ?signed:bool -> string -> pos_ref:int ref -> t Or_error.t
 val write: t -> string -> pos:int -> unit
 
 val to_int:   int   decoder
