@@ -21,40 +21,23 @@ BuildDepends: core_kernel,
 Library "bap-container"
   Path:            .
   BuildTools:      ocamlbuild
-  Modules:         Exec_container, Elf_container
-  BuildDepends:    core_kernel, elf, bap-types
+  Modules:         Exec_container, Elf_container, Leb128, Dff, Dwarf, Dwarf_input, Dwarf_data
+  BuildDepends:    core_kernel, elf, bap-types, ocplib-endian, pa_ounit, pa_ounit.syntax
   CompiledObject:  best
-
-Library "leb128"
-  Path:            .
-  FindlibName:     leb128
-  FindlibParent:   bap-container
-  Modules: Leb128
-  CompiledObject: best
-  BuildDepends: ocplib-endian
-
-Library dff
-  Path: .
-  FindlibParent: bap-container
-  FindlibName: dff
-  BuildDepends: bap-container.leb128, bap-types, pa_ounit, pa_ounit.syntax
-  Modules: Dff, Dwarf, Dwarf_input, Dwarf_data
-  XMETARequires: pa_ounit
 
 Executable "test_leb128"
   Path: .
   MainIs: test_leb128.ml
   Install: false
   Build$: flag(tests)
-  BuildDepends: bap-container.leb128
+  BuildDepends: bap-container
   CompiledObject: best
 
 Executable dff_test
   Path: .
-  BuildDepends: bap-container.dff, pa_ounit, elf
+  BuildDepends: bap-container, pa_ounit, elf
   MainIs: dff_test.ml
   CompiledObject: best
-
 
 Test "leb128"
   Type: Custom (0.4)
